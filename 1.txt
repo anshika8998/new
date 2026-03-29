@@ -1,1 +1,2 @@
 my first file in git bash
+my sec version of file
