@@ -20,4 +20,5 @@
 
 8) To create branch use: git branch name-of-branch
 
+![4](image-1/4.png)
 
