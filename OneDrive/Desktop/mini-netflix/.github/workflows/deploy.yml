@@ -1,0 +1,40 @@
+# Name of the workflow (shows up in GitHub Actions tab)
+name: Build and Push Docker Image
+
+# Trigger: run this pipeline when code is pushed to main branch
+on:
+  push:
+    branches:
+      - main
+
+# Jobs: what to actually do
+jobs:
+  build-and-push:
+    # Use GitHub's Ubuntu machine to run our steps
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Download our code onto the GitHub runner machine
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Step 2: Set up Docker Buildx (modern Docker build system)
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      # Step 3: Login to Docker Hub using our secrets
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      # Step 4: Build the Docker image and push to Docker Hub
+      - name: Build and Push
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: |
+            anshikatyagi899/mini-netflix:latest
+            anshikatyagi899/mini-netflix:a3f9c21b
